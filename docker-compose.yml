@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+
+  jimureport-mysql:
+    build:
+      context: ./jimureport-mysql
+    container_name: jimureport-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  jimureport:
+    build:
+      context: ./jimureport
+    container_name: jimureport
+    restart: always
+    depends_on:
+      - jimureport-mysql
+    ports:
+      - "8085:8085"
